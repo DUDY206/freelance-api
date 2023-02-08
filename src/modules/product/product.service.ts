@@ -135,8 +135,8 @@ export class ProductService {
     return product;
   };
 
-  getPresignUrl(imageName) {
-    if (!imageName) {
+  getPresignUrl(imageName, content_type) {
+    if (!imageName || !content_type) {
       throw new NotFoundDocumentException();
     }
     const { minio, jwt } = this.configService.get(`${APP_CONFIG_NAME}`);
@@ -146,6 +146,7 @@ export class ProductService {
     return this.minioClientSvc.presignedPostPolicy(
       minio.bucket,
       minioObjectName,
+      content_type
     );
   }
 
